@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
 const multer = require("multer");
 const { roleCheck } = require("../middlewares/auth");
@@ -9,41 +9,42 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/login", accountCtrl.loginUser);
+router.post("/logout", accountCtrl.logout);
 
-router.post("/addUser", roleCheck(["Global Admin"]), userCtrl.addUser);
+router.post("/user", roleCheck(["Global Admin"]), userCtrl.createUser);
 router.post(
-  "/addStudent",
+  "/student",
   roleCheck(["Global Admin"]),
   upload.any(),
-  studentCtrl.addStudent
+  studentCtrl.createStudent
 );
 
 router.get(
-  "/getUsers",
+  "/users",
   roleCheck(["Global Admin", "Super Admin"]),
-  userCtrl.getUsers
+  userCtrl.getAllUsers
 );
 
 router.get(
-  "/getStudents",
+  "/students",
   roleCheck(["Global Admin", "Super Admin"]),
-  studentCtrl.getStudents
+  studentCtrl.getAllStudents
 );
 
 router.get(
-  "/getUser/:id",
+  "/user/:id",
   roleCheck(["Global Admin", "Super Admin", "Admin"]),
   userCtrl.getUserById
 );
 
-router.post(
-  "/updateUser/:id",
+router.put(
+  "/user/:id",
   roleCheck(["Global Admin", "Super Admin"]),
   userCtrl.updateUser
 );
 
-router.post(
-  "/deleteUser/:id",
+router.delete(
+  "/user/:id",
   roleCheck(["Global Admin", "Super Admin"]),
   userCtrl.deleteUser
 );

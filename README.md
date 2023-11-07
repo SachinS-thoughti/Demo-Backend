@@ -21,8 +21,6 @@ To configure this application, follow these steps:
 
 - `APP_URL`: The URL at which the application can be accessed.
 
-- `APP_URL`: The URL at which the application can be accessed.
-
 - `LOCAL_HOST`: The local host name or IP address.
 
 - `DB_HOST`: The hostname or IP address of your MySQL database server.
@@ -49,15 +47,34 @@ To configure this application, follow these steps:
 2. Run the following command to install project dependencies.
 
    ```bash
+
    npm install or npm i
+
    ```
+
+### To run database migration, Go to directory & run following command
+
+(Please note that, this command will delete all tables in database & create new tables with dummy data, according to schemas defined in migration. It will also create a dummy data for testing.)
+
+```bash
+npm run migrate:dus
+
+```
+
+#### Once database dump imported, it will create below test admin credentials
+
+**Admin Credentials:**
+
+- Username: **test@school.com**
+- Password: **Test@123**
+- Login Path: **/login**
 
 ## Start Application
 
 1. Use the below command to start the application.
 
 ```bash
-  npm start
+  npm run dev
 ```
 
 - The application will be available at http://localhost:PORT. (`PORT` given in `.env` file)

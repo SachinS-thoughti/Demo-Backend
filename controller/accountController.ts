@@ -1,4 +1,5 @@
-const Users = require("../db/models/users");
+const Users = require("../models").User;
+import { Request, Response } from "express";
 const { generateToken } = require("../middlewares/auth");
 const bcrypt = require("bcrypt");
 import {
@@ -7,7 +8,7 @@ import {
   send500ErrorResponse,
 } from "../helper/response.helper";
 
-var loginUser = async (req:any, res:any) => {
+const loginUser = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     const user = await Users.findOne({
@@ -29,10 +30,16 @@ var loginUser = async (req:any, res:any) => {
       send400BadRequestResponse("Enter Valid Password.", res);
     }
   } catch (error) {
+    console.log("Error :", error);
     send500ErrorResponse(res);
   }
 };
 
+const logout = async (req: Request, res: Response) => {
+  send200SuccessResponse("Logged out successfully", null, res);
+};
+
 module.exports = {
   loginUser,
+  logout,
 };
