@@ -5,7 +5,14 @@
   "main": "app.ts",
   "scripts": {
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "migrate": "npm run migrate:u && npm run migrate:s",
+        "migrate:dus": "npm run migrate:d && npm run migrate:u && npm run migrate:s",
+        "migrate:u": "sequelize db:migrate --debug",
+        "migrate:s": "sequelize db:seed:all --debug",
+        "migrate:d": "sequelize db:migrate:undo:all --debug",
+        "migrate:reset-db": "sequelize db:drop --debug && sequelize db:create --debug"
+    
   },
   "keywords": [],
   "author": "",

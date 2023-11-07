@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "39f45c4c-10fd-427b-b8e9-adcd788d7e63",
+		"name": "Practice API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24342790",
+		"_collection_link": "https://gold-zodiac-549670.postman.co/workspace/Project-C2P~f87739b3-f5fc-4129-ae6b-ab6a5282f3c8/collection/24342790-39f45c4c-10fd-427b-b8e9-adcd788d7e63?action=share&source=collection_link&creator=24342790"
+	},
+	"item": [
+		{
+			"name": "Add New User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_Name\":\"John\",\r\n    \"last_Name\":\"Michael\",\r\n    \"phone\":\"8456253652\",\r\n    \"email\":\"john@school.com\",\r\n    \"password\":\"Test@123\",\r\n    \"role\":1        // 1 : GlobalAdmin, 2 : SuperAdmin, 3 : Admin, 4 : Principal, 5 : Teacher, 6 : Student\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/users",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_Name\":\"John\",\r\n    \"last_Name\":\"Doe\",\r\n    \"phone\":\"8456253652\",\r\n    \"email\":\"johndoe@school.com\",\r\n    \"password\":\"Test@123\",\r\n    \"role\":1        // 1 : GlobalAdmin, 2 : SuperAdmin, 3 : Admin, 4 : Principal, 5 : Teacher, 6 : Student\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var responseData = pm.response.json();\r",
+							"    console.log(\"data :\", responseData)\r",
+							"    if (responseData && responseData.data.token) {\r",
+							"        pm.collectionVariables.set(\"ACCESS_TOKEN\", responseData.data.token);\r",
+							"    } else {\r",
+							"        console.log(\"Token not found in the response\");\r",
+							"    }\r",
+							"} else {\r",
+							"    var responseData = pm.response.json()\r",
+							"    console.log(\"Error: \", responseData.error);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"sachin@school.com\",\r\n    \"password\":\"Test@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_Id",
+							"value": "STU1001",
+							"type": "text"
+						},
+						{
+							"key": "first_Name",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "middle_Name",
+							"value": "Doe",
+							"type": "text"
+						},
+						{
+							"key": "last_Name",
+							"value": "Michael",
+							"type": "text"
+						},
+						{
+							"key": "father_Name",
+							"value": "Matin Doe",
+							"type": "text"
+						},
+						{
+							"key": "mother_Name",
+							"value": "Marry Cruise",
+							"type": "text"
+						},
+						{
+							"key": "class",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "aadhar_Card",
+							"type": "file",
+							"src": ""
+						},
+						{
+							"key": "phone_Number",
+							"value": "6854523654",
+							"type": "text"
+						},
+						{
+							"key": "alternate_Number",
+							"value": "8745896587",
+							"type": "text"
+						},
+						{
+							"key": "current_Address",
+							"value": "England",
+							"type": "text"
+						},
+						{
+							"key": "previous_School_Name",
+							"value": "BPS",
+							"type": "text"
+						},
+						{
+							"key": "previous_School_Address",
+							"value": "London",
+							"type": "text"
+						},
+						{
+							"key": "user_Name",
+							"value": "JohnSTU1001",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Test@123",
+							"type": "text"
+						},
+						{
+							"key": "transfer_Certificate",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/student",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/getStudents",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"getStudents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/logout",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{ACCESS_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "XXXXXX",
+			"type": "string"
+		}
+	]
+}
