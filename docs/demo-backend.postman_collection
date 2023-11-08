@@ -25,7 +25,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"first_Name\":\"John\",\r\n    \"last_Name\":\"Michael\",\r\n    \"phone\":\"8456253652\",\r\n    \"email\":\"john@school.com\",\r\n    \"password\":\"Test@123\",\r\n    \"role\":1        // 1 : GlobalAdmin, 2 : SuperAdmin, 3 : Admin, 4 : Principal, 5 : Teacher, 6 : Student\r\n}",
+					"raw": "{\r\n    \"first_Name\":\"Sachin\",\r\n    \"last_Name\":\"Kumar\",\r\n    \"phone\":\"8456253652\",\r\n    \"email\":\"sachin@school.com\",\r\n    \"password\":\"Test@123\",\r\n    \"role\":6,        // 1 : GlobalAdmin, 2 : SuperAdmin, 3 : Admin, 4 : Principal, 5 : Teacher, 6 : Student\r\n    \"status\":1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,7 +86,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"first_Name\":\"John\",\r\n    \"last_Name\":\"Doe\",\r\n    \"phone\":\"8456253652\",\r\n    \"email\":\"johndoe@school.com\",\r\n    \"password\":\"Test@123\",\r\n    \"role\":1        // 1 : GlobalAdmin, 2 : SuperAdmin, 3 : Admin, 4 : Principal, 5 : Teacher, 6 : Student\r\n}",
+					"raw": "{\r\n    \"first_Name\":\"Sachin\",\r\n    \"last_Name\":\"Kumar\",\r\n    \"phone\":\"8456253652\",\r\n    \"email\":\"sachin@school.com\",\r\n    \"password\":\"Test@123\",\r\n    \"role\":1        // 1 : GlobalAdmin, 2 : SuperAdmin, 3 : Admin, 4 : Principal, 5 : Teacher, 6 : Student\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -143,8 +143,8 @@
 							"if (pm.response.code === 200) {\r",
 							"    var responseData = pm.response.json();\r",
 							"    console.log(\"data :\", responseData)\r",
-							"    if (responseData && responseData.data.token) {\r",
-							"        pm.collectionVariables.set(\"ACCESS_TOKEN\", responseData.data.token);\r",
+							"    if (responseData && responseData.data) {\r",
+							"        pm.collectionVariables.set(\"ACCESS_TOKEN\", responseData.data);\r",
 							"    } else {\r",
 							"        console.log(\"Token not found in the response\");\r",
 							"    }\r",
@@ -166,7 +166,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"sachin@school.com\",\r\n    \"password\":\"Test@123\"\r\n}",
+					"raw": "{\r\n    \"username\":\"test@school.com\",\r\n    \"password\":\"Test@123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -200,27 +200,27 @@
 						},
 						{
 							"key": "first_Name",
-							"value": "John",
+							"value": "Sachin",
 							"type": "text"
 						},
 						{
 							"key": "middle_Name",
-							"value": "Doe",
+							"value": "Kumar",
 							"type": "text"
 						},
 						{
 							"key": "last_Name",
-							"value": "Michael",
+							"value": "Sah",
 							"type": "text"
 						},
 						{
 							"key": "father_Name",
-							"value": "Matin Doe",
+							"value": "Shiv Kumar Sah",
 							"type": "text"
 						},
 						{
 							"key": "mother_Name",
-							"value": "Marry Cruise",
+							"value": "Shiv Kumari Devi",
 							"type": "text"
 						},
 						{
@@ -231,7 +231,7 @@
 						{
 							"key": "aadhar_Card",
 							"type": "file",
-							"src": ""
+							"src": "/C:/Users/sachi/OneDrive/Desktop/Important/_Sachin _Shah_offer_letter.pdf"
 						},
 						{
 							"key": "phone_Number",
@@ -245,7 +245,7 @@
 						},
 						{
 							"key": "current_Address",
-							"value": "England",
+							"value": "Kulesra",
 							"type": "text"
 						},
 						{
@@ -255,12 +255,12 @@
 						},
 						{
 							"key": "previous_School_Address",
-							"value": "London",
+							"value": "Kulesra",
 							"type": "text"
 						},
 						{
 							"key": "user_Name",
-							"value": "JohnSTU1001",
+							"value": "SachinSTU1001",
 							"type": "text"
 						},
 						{
