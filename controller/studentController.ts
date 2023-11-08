@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 const Student = require("../models").Student;
 import {
-  send400ValidationErrors,
-  send200SuccessResponse,
-  send404NotFoundResponse,
-  send500ErrorResponse,
-  send400BadRequestResponse,
+  sendValidationErrors,
+  sendResponse,
+  sendErrorMessage,
+  sendNotFoundMessage,
 } from "../helper/response.helper";
 
 const createStudent = async (req: Request, res: Response) => {
   try {
     if (!req) {
-      return send400BadRequestResponse("Please select files", res);
+      const msg = "Please select files";
+      return sendResponse(400, msg, msg, null, res);
     }
     const studentData = req.body;
     //const files = req.files;
@@ -27,12 +27,12 @@ const createStudent = async (req: Request, res: Response) => {
 
     const completeData = { ...studentData, ...filePaths };
     const student = await Student.create(completeData);
-    send200SuccessResponse("Successfully Saved", student, res);
+    sendResponse(200, "Student created successfully", "", student, res);
   } catch (error: any) {
     if (error.name === "SequelizeValidationError") {
-      send400ValidationErrors(error, res);
+      sendValidationErrors(error, res);
     } else {
-      send500ErrorResponse(res);
+      sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
     }
   }
 };
@@ -41,12 +41,12 @@ const getAllStudents = async (req: Request, res: Response) => {
   try {
     const data = await Student.findAll({});
     if (data.length === 0) {
-      send404NotFoundResponse(res);
+      sendResponse(404, sendNotFoundMessage, sendNotFoundMessage, null, res);
     }
-    send200SuccessResponse("Students found", data, res);
+    sendResponse(200, "Students found", "", data, res);
   } catch (error: any) {
     console.log("Error :", error);
-    send500ErrorResponse(res);
+    sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
   }
 };
 

@@ -12,6 +12,8 @@ module.exports = {
         password:
           "$2a$12$wOWUpBLQxznvnWe0qN1qBOcxdlR0Ox1wtZgYtPYCqX9zWSIrPe5CG",
         role: "1",
+        token_Id: "1",
+        status: "1",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

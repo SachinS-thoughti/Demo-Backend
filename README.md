@@ -52,6 +52,20 @@ To configure this application, follow these steps:
 
    ```
 
+# Setting Up Configuration for Your Node.js Application
+
+To configure your Node.js application using Sequelize, you can follow these steps to create a `config.json` file:
+
+## Step 1: Create a `config.json` File
+
+Use the following command to create a `config.json` file in your application. This command will also create a `config` folder with the `config.json` file.
+
+```bash
+npx sequelize-cli init
+```
+
+## Step 2: Make sure to update your database configuration in `config.json` file
+
 ### To run database migration, Go to directory & run following command
 
 (Please note that, this command will delete all tables in database & create new tables with dummy data, according to schemas defined in migration. It will also create a dummy data for testing.)
