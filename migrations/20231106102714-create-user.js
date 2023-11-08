@@ -91,6 +91,13 @@ module.exports = {
           },
         },
       },
+      token_Id: {
+        type: Sequelize.BOOLEAN,
+      },
+      status: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

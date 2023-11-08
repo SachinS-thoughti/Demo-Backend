@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         "Teacher",
         "Student"
       ),
+      token_Id: DataTypes.INTEGER,
+      status: DataTypes.BOOLEAN,
     },
     {
       sequelize,

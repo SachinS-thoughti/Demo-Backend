@@ -1,12 +1,9 @@
 const Users = require("../models").User;
+const Token = require("../models").Token;
 import { Request, Response } from "express";
-const { generateToken } = require("../middlewares/auth");
+import { generateToken } from "../middlewares/auth";
 const bcrypt = require("bcrypt");
-import {
-  send200SuccessResponse,
-  send400BadRequestResponse,
-  send500ErrorResponse,
-} from "../helper/response.helper";
+import { sendResponse, sendErrorMessage } from "../helper/response.helper";
 
 const loginUser = async (req: Request, res: Response) => {
   try {
@@ -18,28 +15,85 @@ const loginUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      send400BadRequestResponse("Enter Registered Email.", res);
+      const msg = "Enter Registered Email.";
+      sendResponse(400, msg, msg, null, res);
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
       const token = generateToken(user);
-      const data = { token: token };
-      send200SuccessResponse("Login successfully", data, res);
+      const tokenDetails = {
+        token: token,
+        expired: false,
+      };
+
+      await Token.create(tokenDetails);
+      const tokenId = await findToken(token);
+      const data = {
+        token_Id: tokenId,
+      };
+      await Users.update(data, {
+        where: {
+          id: user.id,
+        },
+      });
+
+      sendResponse(200, "Login successfully", "", token, res);
     } else {
-      send400BadRequestResponse("Enter Valid Password.", res);
+      const msg = "Enter Valid Password.";
+      sendResponse(400, msg, msg, null, res);
     }
   } catch (error) {
     console.log("Error :", error);
-    send500ErrorResponse(res);
+    sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
   }
 };
 
 const logout = async (req: Request, res: Response) => {
-  send200SuccessResponse("Logged out successfully", null, res);
+  try {
+    const authToken: any = req.header("Authorization");
+    let token = authToken.split(" ");
+    token = token[1];
+    if (!authToken) {
+      const msg = "No token provided";
+      sendResponse(401, msg, msg, null, res);
+    }
+    const tokenId = await findToken(token);
+    if (!tokenId) {
+      sendResponse(400, "Invalid token", "Invalid token", null, res);
+    }
+    const tokeData = {
+      expired: true,
+    };
+
+    await Token.update(tokeData, {
+      where: {
+        id: tokenId,
+      },
+    });
+
+    sendResponse(200, "Logout successfully", "", null, res);
+  } catch (error) {
+    console.error("Error:", error);
+    sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
+  }
+};
+
+const findToken = async (token: any) => {
+  try {
+    const tokenDetails = await Token.findOne({
+      where: {
+        token: token,
+      },
+    });
+    return tokenDetails.dataValues.id;
+  } catch (error) {
+    console.error("Error while finding token:", error);
+  }
 };
 
 module.exports = {
   loginUser,
   logout,
+  findToken,
 };

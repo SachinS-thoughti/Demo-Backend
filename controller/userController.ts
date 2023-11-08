@@ -2,11 +2,10 @@ import { Request, Response } from "express";
 const bcrypt = require("bcrypt");
 const User = require("../models").User;
 import {
-  send400ValidationErrors,
-  send200SuccessResponse,
-  send404NotFoundResponse,
-  send500ErrorResponse,
-  send400BadRequestResponse,
+  sendValidationErrors,
+  sendResponse,
+  sendErrorMessage,
+  sendNotFoundMessage,
 } from "../helper/response.helper";
 
 const createUser = async (req: Request, res: Response) => {
@@ -14,12 +13,13 @@ const createUser = async (req: Request, res: Response) => {
     req.body.password = await bcrypt.hash(req.body.password, 10);
     const userData = req.body;
     const user = await User.create(userData);
-    send200SuccessResponse("Successfully Saved", user, res);
+    sendResponse(200, "User created successfully", "", user, res);
   } catch (error: any) {
     if (error.name === "SequelizeValidationError") {
-      send400ValidationErrors(error, res);
+      sendValidationErrors(error, res);
     } else {
-      send500ErrorResponse(res);
+      console.log("Error :", error);
+      sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
     }
   }
 };
@@ -28,11 +28,11 @@ const getAllUsers = async (req: Request, res: Response) => {
   try {
     const data = await User.findAll({});
     if (data.length === 0) {
-      send404NotFoundResponse(res);
+      sendResponse(404, sendNotFoundMessage, sendNotFoundMessage, null, res);
     }
-    send200SuccessResponse("Users found", data, res);
+    sendResponse(200, "Users found", "", data, res);
   } catch (error) {
-    send500ErrorResponse(res);
+    sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
   }
 };
 
@@ -44,11 +44,11 @@ const getUserById = async (req: Request, res: Response) => {
       },
     });
     if (!data) {
-      send404NotFoundResponse(res);
+      sendResponse(404, sendNotFoundMessage, sendNotFoundMessage, null, res);
     }
-    send200SuccessResponse("User data found", data, res);
+    sendResponse(200, "User data found", "", data, res);
   } catch (error) {
-    send500ErrorResponse(res);
+    sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
   }
 };
 
@@ -65,16 +65,16 @@ const updateUser = async (req: Request, res: Response) => {
 
     if (rowsUpdated > 0) {
       console.log(`Updated ${rowsUpdated} row(s) successfully.`);
-      send200SuccessResponse("User updated successfully", "", res);
+      sendResponse(200, "User updated successfully", "", null, res);
     } else {
-      console.log("No rows were updated.");
-      send400BadRequestResponse(`No rows were updated.`, res);
+      const msg = `No rows were updated.`;
+      sendResponse(400, msg, msg, null, res);
     }
   } catch (error: any) {
     if (error.name === "SequelizeValidationError") {
-      send400ValidationErrors(error, res);
+      sendValidationErrors(error, res);
     } else {
-      send500ErrorResponse(res);
+      sendResponse(500, sendErrorMessage, sendErrorMessage, null, res);
     }
   }
 };
@@ -89,14 +89,14 @@ const deleteUser = async (req: any, res: any) => {
 
     if (rowsDeleted > 0) {
       console.log(`Deleted ${rowsDeleted} row(s) successfully.`);
-      send200SuccessResponse("User deleted successfully", "", res);
+      sendResponse(200, "User deleted successfully", "", null, res);
     } else {
-      console.log("No rows were deleted.");
-      send400BadRequestResponse(`No rows were deleted.`, res);
+      const msg = `No rows were deleted.`;
+      sendResponse(400, msg, msg, null, res);
     }
   } catch (error) {
-    console.error("Error deleting rows:", error);
-    send400BadRequestResponse(`Error while deleting rows.`, res);
+    const msg = `Error while deleting rows.`;
+    sendResponse(500, msg, msg, null, res);
   }
 };
 

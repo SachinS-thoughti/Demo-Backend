@@ -9,7 +9,11 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/login", accountCtrl.loginUser);
-router.post("/logout", accountCtrl.logout);
+router.post(
+  "/logout",
+  roleCheck(["Global Admin", "Super Admin", "Admin"]),
+  accountCtrl.logout
+);
 
 router.post("/user", roleCheck(["Global Admin"]), userCtrl.createUser);
 router.post(
